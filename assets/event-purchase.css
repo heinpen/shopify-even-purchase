@@ -1,0 +1,142 @@
+[data-section="event-purchase"] {
+    --evt-gap: 24px;
+    --evt-border: #e5e7eb;
+    --evt-bg: #fff;
+    --evt-muted: #6b7280;
+    --evt-accent: #111827;
+}
+
+/* Grid layout */
+[data-section="event-purchase"] .evt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--evt-gap);
+}
+
+[data-section="event-purchase"] .evt-col {
+    padding: 16px;
+}
+
+/* Fields */
+[data-section="event-purchase"] .evt-variants {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+[data-section="event-purchase"] .evt-variants fieldset {
+    all: unset;
+    display: block;
+}
+
+/* Image */
+[data-section="event-purchase"] .evt-image {
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* Title */
+[data-section="event-purchase"] .evt-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-top: 0px;
+}
+
+/* Price */
+[data-section="event-purchase"] .evt-price {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Labels */
+[data-section="event-purchase"] .evt-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* Radio options */
+[data-section="event-purchase"] .evt-radio {
+    display: inline-flex;
+    align-items: center;
+    margin: 4px 8px 4px 0;
+    cursor: pointer;
+}
+
+[data-section="event-purchase"] .evt-radio input {
+    display: none;
+}
+
+[data-section="event-purchase"] .evt-radio span {
+    padding: 6px 12px;
+    border: 1px solid var(--evt-border);
+    border-radius: 999px;
+    transition: all 0.2s ease;
+}
+
+[data-section="event-purchase"] .evt-radio input:checked + span {
+    background: var(--evt-accent);
+    color: #fff;
+}
+
+/* Disabled radios */
+[data-section="event-purchase"] .evt-radio input[disabled] + span {
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+
+/* User form */
+[data-section="event-purchase"] .evt-user-form {
+    margin-top: var(--evt-gap);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+[data-section="event-purchase"] .evt-user-form-title {
+    font-size: 20px;
+}
+
+[data-section="event-purchase"] .ent-user-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+[data-section="event-purchase"] .ent-user-form-fields .evt-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+[data-section="event-purchase"] .ent-user-form-fields .evt-input {
+    width: 100%;
+    border: 1px solid var(--evt-border);
+    border-radius: 8px;
+    padding: 0.6rem;
+}
+
+[data-section="event-purchase"] .ent-user-form-fields .evt-label {
+    line-height: 1;
+}
+
+/* Submit button */
+[data-section="event-purchase"] .evt-btn {
+    margin-top: 16px;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--evt-accent);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+[data-section="event-purchase"] .evt-btn:hover {
+    background: #000;
+}

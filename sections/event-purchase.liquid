@@ -1,0 +1,185 @@
+{% assign event_product = all_products[section.settings.product] %}
+
+{% if event_product != blank %}
+    {% form 'product', event_product %}
+        <section id="evt-{{ section.id }}" data-section="event-purchase">
+            <input type="hidden" name="id" value="{{ event_product.first_available_variant.id }}" />
+
+            <div class="evt-grid">
+                <!-- left -->
+                <div class="evt-col">
+                    <img class="evt-image" src="{{ event_product.featured_image | img_url: '800x' }}" alt="{{ event_product.title }}">
+                </div>
+
+                <!-- right -->
+                <div class="evt-col">
+                    {% for block in section.blocks %}
+                        {% case block.type %}
+                            {% when 'title' %}
+                                <h3 class="evt-title">{{ event_product.title }}</h3>
+
+                            {% when 'description' %}
+                                <div class="evt-description">
+                                    {{ event_product.description }}
+                                </div>
+
+                            {% when 'price' %}
+                                <div class="evt-price" data-price>
+                                    {{ event_product.first_available_variant.price | money_with_currency }}
+                                </div>
+
+                            {% when 'variants' %}
+                                <div class="evt-variants">
+                                    {% for option in event_product.options_with_values %}
+                                        <fieldset
+                                                class="evt-fieldset"
+                                                data-option-name="{{ option.name | escape }}">
+                                            <legend class="evt-label">{{ option.name }}</legend>
+                                            {% for val in option.values %}
+                                                <label class="evt-radio">
+                                                    <input
+                                                            type="radio"
+                                                            name="options[{{ option.name }}]"
+                                                            value="{{ val | escape }}"
+                                                            {% if forloop.first %}checked{% endif %}>
+                                                    <span>{{ val }}</span>
+                                                </label>
+                                            {% endfor %}
+                                        </fieldset>
+                                    {% endfor %}
+                                </div>
+
+
+
+                            {% when 'user_form' %}
+                                {% if section.settings.show_user_form %}
+                                    <div class="evt-user-form">
+                                        <h3 class="evt-title evt-user-form-title">Персональні дані</h3>
+
+                                        <div class="ent-user-form-fields">
+                                            <div class="evt-two">
+                                                <div class="evt-field"><label class="evt-label">Ім’я*</label><input class="evt-input" required name="properties[Ім’я]" type="text"></div>
+                                                <div class="evt-field"><label class="evt-label">Прізвище*</label><input class="evt-input" required name="properties[Прізвище]" type="text"></div>
+                                            </div>
+                                            <div class="evt-two">
+                                                <div class="evt-field"><label class="evt-label">Email*</label><input class="evt-input" required name="properties[Email]" type="email"></div>
+                                                <div class="evt-field"><label class="evt-label">Телефон*</label><input class="evt-input" required name="properties[Телефон]" type="tel"></div>
+                                            </div>
+                                            <div class="evt-two">
+                                                <div class="evt-field"><label class="evt-label">Поштовий індекс*</label><input class="evt-input" required name="properties[Поштовий індекс]" type="text"></div>
+                                                <div class="evt-field"><label class="evt-label">Дата народження*</label><input class="evt-input" required name="properties[Дата народження]" type="date"></div>
+                                            </div>
+                                            <div class="evt-two">
+                                                <div class="evt-field"><label class="evt-label">Гендер*</label>
+                                                    <select class="evt-input" required name="properties[Гендер]">
+                                                        <option value="" selected disabled>Оберіть</option>
+                                                        <option>Жіночий</option>
+                                                        <option>Чоловічий</option>
+                                                        <option>Інше</option>
+                                                        <option>Не бажаю вказувати</option>
+                                                    </select>
+                                                </div>
+                                                <div class="evt-field"><label class="evt-label">Код користувача</label><input class="evt-input" name="properties[Код користувача]" type="text" placeholder="необов’язково"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% when 'button' %}
+                                <button type="submit" class="evt-btn" data-checkout>Перейти до оплати</button>
+                        {% endcase %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- JSON product data -->
+            <script type="application/json" id="evt-product-json">
+        {{ event_product | json }}
+      </script>
+        </section>
+    {% endform %}
+{% endif %}
+
+<script>
+  window.eventPurchaseMoneyFormat = {{ shop.money_format | json }};
+</script>
+
+<link rel="stylesheet" href="{{ 'event-purchase.css' | asset_url }}">
+<script src="{{ 'event-purchase.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Event Purchase Section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Продукт"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_user_form",
+      "label": "Показати форму користувача",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Назва продукту",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Опис продукту",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Ціна",
+      "limit": 1
+    },
+    {
+      "type": "variants",
+      "name": "Варіанти",
+      "limit": 1
+    },
+    {
+      "type": "user_form",
+      "name": "Форма користувача",
+      "limit": 1
+    },
+    {
+      "type": "button",
+      "name": "Кнопка чекауту",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event Purchase",
+      "blocks": [
+        {
+          "type": "title"
+        },
+        {
+          "type": "description"
+        },
+        {
+          "type": "price"
+        },
+        {
+          "type": "variants"
+        },
+        {
+          "type": "user_form"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
